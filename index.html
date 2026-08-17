@@ -1,0 +1,4243 @@
+Yes — here is the **entire thing as one self-contained HTML source file**. I kept your existing functionality and added the nail pictures/inspiration section directly into the same file. The images are built into the page as inline SVG artwork, so you don't need additional image files or external image URLs.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build Your Nail Set — LuxNails</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ============================================================
+           RESET & BASE
+        ============================================================ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #faf6f0;
+            --cream-dark: #f5ede4;
+            --blush: #e8c4c0;
+            --blush-dark: #d4a8a0;
+            --blush-light: #f5e4e0;
+            --gold: #d4a574;
+            --gold-light: #e8d5b8;
+            --gold-dark: #b8895a;
+            --espresso: #3c2415;
+            --espresso-light: #5a3d2a;
+            --charcoal: #2d1a0e;
+            --glass: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow: 0 20px 60px rgba(60, 36, 21, 0.10);
+            --shadow-soft: 0 8px 32px rgba(60, 36, 21, 0.06);
+            --radius: 24px;
+            --radius-sm: 12px;
+            --transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--espresso);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            padding-top: 80px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--cream-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        .text-gold {
+            color: var(--gold-dark);
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        /* ============================================================
+           GLASS
+        ============================================================ */
+        .glass {
+            background: var(--glass);
+            backdrop-filter: blur(20px) saturate(1.3);
+            -webkit-backdrop-filter: blur(20px) saturate(1.3);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* ============================================================
+           BUTTONS
+        ============================================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 36px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--espresso);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(60, 36, 21, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(60, 36, 21, 0.30);
+            background: #2d1a0e;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--espresso);
+            border: 1.5px solid var(--espresso);
+        }
+
+        .btn-secondary:hover {
+            background: var(--espresso);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(212, 165, 116, 0.35);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(212, 165, 116, 0.45);
+            background: var(--gold-dark);
+        }
+
+        .btn-sm {
+            padding: 10px 24px;
+            font-size: 0.85rem;
+        }
+
+        /* ============================================================
+           NAV
+        ============================================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(250, 246, 240, 0.88);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--espresso);
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--gold);
+        }
+
+        /* ============================================================
+           BUILDER
+        ============================================================ */
+        .builder {
+            padding: 40px 0 100px;
+            background: var(--cream);
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .builder-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .builder-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 6px;
+        }
+
+        .builder-header p {
+            color: var(--espresso-light);
+            font-size: 1.05rem;
+        }
+
+        /* ============================================================
+           3D PREVIEW
+        ============================================================ */
+        .builder-3d-wrap {
+            position: relative;
+            height: 440px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 50% 35%, rgba(255,255,255,.9), transparent 45%),
+                linear-gradient(135deg, #f7ebe5, #efe0d7);
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .builder-3d-wrap canvas {
+            width: 100% !important;
+            height: 100% !important;
+            cursor: grab;
+        }
+
+        .builder-3d-wrap canvas:active {
+            cursor: grabbing;
+        }
+
+        .three-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(250, 246, 240, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 3;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+        }
+
+        .three-loading.hidden {
+            opacity: 0;
+        }
+
+        .three-loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--gold-light);
+            border-top-color: var(--gold-dark);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .no-webgl .builder-3d-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--espresso-light);
+            text-align: center;
+            padding: 40px;
+        }
+
+        /* ============================================================
+           PROGRESS
+        ============================================================ */
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 50px;
+            background: rgba(255,255,255,.4);
+            font-size: .8rem;
+            font-weight: 500;
+            color: var(--espresso-light);
+            transition: all var(--transition);
+        }
+
+        .progress-step .num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(60,36,21,.08);
+            font-weight: 600;
+            font-size: .7rem;
+        }
+
+        .progress-step.active {
+            background: var(--glass);
+            border: 1px solid var(--gold);
+            color: var(--espresso);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .progress-step.active .num {
+            background: var(--gold);
+            color: #fff;
+        }
+
+        .progress-step.done {
+            background: rgba(212,165,116,.15);
+            color: var(--espresso);
+        }
+
+        .progress-step.done .num {
+            background: var(--gold-dark);
+            color: #fff;
+        }
+
+        /* ============================================================
+           STEP PANELS
+        ============================================================ */
+        .step-panel {
+            display: none;
+            animation: fadeSlideUp .6s ease forwards;
+        }
+
+        .step-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-panel h3 {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+        }
+
+        .step-panel .sub {
+            color: var(--espresso-light);
+            font-size: 1rem;
+            margin-bottom: 24px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .option-card {
+            padding: 18px 14px;
+            background: rgba(255,255,255,.5);
+            border-radius: var(--radius-sm);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition);
+            text-align: center;
+            position: relative;
+        }
+
+        .option-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-soft);
+            background: rgba(255,255,255,.8);
+        }
+
+        .option-card.selected {
+            border-color: var(--gold);
+            background: rgba(255,255,255,.92);
+            box-shadow: 0 8px 30px rgba(212,165,116,.18);
+        }
+
+        .option-card .label {
+            font-weight: 600;
+            font-size: .95rem;
+            display: block;
+        }
+
+        .option-card .desc {
+            font-size: .75rem;
+            color: var(--espresso-light);
+            margin-top: 4px;
+            display: block;
+        }
+
+        .option-card .icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .option-card .check {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: #fff;
+            font-size: .6rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option-card.selected .check {
+            display: flex;
+        }
+
+        /* ============================================================
+           NAIL PICTURES
+        ============================================================ */
+        .nail-picture {
+            width: 100%;
+            height: 115px;
+            display: block;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            background: var(--blush-light);
+        }
+
+        .nail-picture svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            transition: transform .6s cubic-bezier(.23,1,.32,1);
+        }
+
+        .option-card:hover .nail-picture svg {
+            transform: scale(1.08);
+        }
+
+        .option-card.selected .nail-picture {
+            box-shadow: 0 7px 22px rgba(212,165,116,.25);
+        }
+
+        /* ============================================================
+           STEP NAV
+        ============================================================ */
+        .step-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(60,36,21,.06);
+        }
+
+        /* ============================================================
+           CALENDAR
+        ============================================================ */
+        .calendar-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 8px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7,1fr);
+            gap: 4px;
+        }
+
+        .calendar-grid .header {
+            font-weight: 600;
+            font-size: .7rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--espresso-light);
+            padding: 8px 0;
+            text-align: center;
+        }
+
+        .calendar-grid .day {
+            padding: 10px 0;
+            text-align: center;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition);
+            font-size: .9rem;
+            background: transparent;
+            border: none;
+            font-family: 'Inter',sans-serif;
+            font-weight: 500;
+            color: var(--espresso);
+        }
+
+        .calendar-grid .day:hover {
+            background: rgba(212,165,116,.15);
+        }
+
+        .calendar-grid .day.selected {
+            background: var(--gold);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(212,165,116,.3);
+        }
+
+        .calendar-grid .day.other {
+            color: rgba(60,36,21,.25);
+            cursor: default;
+        }
+
+        .calendar-grid .day.today {
+            font-weight: 700;
+        }
+
+        .calendar-month {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .calendar-month h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .calendar-month button {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--espresso-light);
+            padding: 4px 12px;
+            border-radius: 8px;
+        }
+
+        .calendar-month button:hover {
+            background: rgba(60,36,21,.06);
+        }
+
+        .time-slots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .time-slot {
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1.5px solid rgba(60,36,21,.1);
+            background: rgba(255,255,255,.4);
+            cursor: pointer;
+            transition: all var(--transition);
+            font-family: 'Inter',sans-serif;
+            font-weight: 500;
+            font-size: .85rem;
+            color: var(--espresso);
+        }
+
+        .time-slot:hover {
+            border-color: var(--gold);
+            background: rgba(255,255,255,.7);
+        }
+
+        .time-slot.selected {
+            border-color: var(--gold);
+            background: var(--gold);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(212,165,116,.25);
+        }
+
+        .time-slot.unavailable {
+            opacity: .3;
+            cursor: not-allowed;
+        }
+
+        .est-duration-display {
+            font-size: .85rem;
+            color: var(--espresso-light);
+            margin-top: 14px;
+        }
+
+        /* ============================================================
+           REVIEW
+        ============================================================ */
+        .review-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 12px;
+        }
+
+        .review-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .review-details .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(60,36,21,.05);
+        }
+
+        .review-details .row .key {
+            color: var(--espresso-light);
+        }
+
+        .review-details .row .value {
+            font-weight: 600;
+        }
+
+        .review-details .row.total {
+            border-bottom: none;
+            padding-top: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gold-dark);
+        }
+
+        .review-summary-card {
+            padding: 28px 24px;
+            background: rgba(255,255,255,.6);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            border: 1px solid var(--glass-border);
+        }
+
+        .review-summary-card .emoji {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        .review-summary-card p {
+            color: var(--espresso-light);
+            font-size: .95rem;
+        }
+
+        .review-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        /* ============================================================
+           INSPIRATION GALLERY
+        ============================================================ */
+        .nail-inspiration {
+            padding: 80px 0 110px;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(232,196,192,.2), transparent 30%),
+                var(--cream-dark);
+        }
+
+        .inspiration-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .inspiration-header h2 {
+            font-size: 2.4rem;
+            margin-bottom: 8px;
+        }
+
+        .inspiration-header p {
+            color: var(--espresso-light);
+        }
+
+        .inspiration-grid {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 18px;
+        }
+
+        .inspiration-card {
+            position: relative;
+            height: 340px;
+            overflow: hidden;
+            border-radius: var(--radius);
+            cursor: pointer;
+            box-shadow: var(--shadow-soft);
+            background: #ead8d0;
+            transition: transform .5s cubic-bezier(.23,1,.32,1);
+        }
+
+        .inspiration-card:hover {
+            transform: translateY(-7px);
+        }
+
+        .inspiration-card svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            transition: transform .8s cubic-bezier(.23,1,.32,1);
+        }
+
+        .inspiration-card:hover svg {
+            transform: scale(1.06);
+        }
+
+        .inspiration-overlay {
+            position: absolute;
+            inset: auto 0 0 0;
+            padding: 70px 20px 20px;
+            color: #fff;
+            background: linear-gradient(transparent,rgba(45,26,14,.88));
+        }
+
+        .inspiration-overlay h3 {
+            font-family: 'Playfair Display',serif;
+            font-size: 1.4rem;
+        }
+
+        .inspiration-overlay span {
+            font-size: .75rem;
+            opacity: .9;
+        }
+
+        /* ============================================================
+           FLOATING SUMMARY
+        ============================================================ */
+        .summary-floating {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 300px;
+            padding: 22px 24px;
+            background: rgba(255,255,255,.90);
+            backdrop-filter: blur(24px) saturate(1.4);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 60px rgba(60,36,21,.14);
+            z-index: 900;
+            transition: all .6s cubic-bezier(.23,1,.32,1);
+            transform: translateY(calc(100% + 40px));
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .summary-floating.visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .summary-floating h4 {
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--espresso-light);
+            margin-bottom: 12px;
+        }
+
+        .summary-floating .item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: .88rem;
+            border-bottom: 1px solid rgba(60,36,21,.04);
+        }
+
+        .summary-floating .item .key {
+            color: var(--espresso-light);
+        }
+
+        .summary-floating .item .value {
+            font-weight: 600;
+            max-width: 160px;
+            text-align: right;
+        }
+
+        .summary-floating .total {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid var(--gold);
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        /* ============================================================
+           CONFIRMATION
+        ============================================================ */
+        .confirmation-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(60,36,21,.4);
+            backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .confirmation-overlay.open {
+            display: flex;
+        }
+
+        .confirmation-modal {
+            max-width: 540px;
+            width: 100%;
+            padding: 44px 36px 36px;
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: 0 40px 80px rgba(0,0,0,.2);
+            text-align: center;
+            animation: popIn .5s cubic-bezier(.23,1,.32,1);
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .confirmation-modal .check {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: #fff;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+        }
+
+        .confirmation-modal h2 {
+            font-size: 1.8rem;
+            margin-bottom: 4px;
+        }
+
+        .confirmation-modal .sub {
+            color: var(--espresso-light);
+            margin-bottom: 22px;
+        }
+
+        .confirmation-modal .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            text-align: left;
+            background: var(--cream);
+            padding: 18px 20px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 22px;
+        }
+
+        .confirmation-modal .d-item {
+            font-size: .85rem;
+        }
+
+        .confirmation-modal .d-key {
+            color: var(--espresso-light);
+            font-size: .65rem;
+            text-transform: uppercase;
+        }
+
+        .confirmation-modal .d-value {
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .confirmation-modal .actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+        ============================================================ */
+        @media (max-width:1024px) {
+            .calendar-wrap,
+            .review-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .summary-floating {
+                right: 16px;
+                bottom: 16px;
+                width: 260px;
+            }
+
+            .builder-3d-wrap {
+                height: 340px;
+            }
+
+            .inspiration-grid {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+
+        @media (max-width:768px) {
+            .container {
+                padding: 0 18px;
+            }
+
+            .builder-header h1 {
+                font-size: 2rem;
+            }
+
+            .builder-3d-wrap {
+                height: 260px;
+            }
+
+            .options-grid {
+                grid-template-columns: repeat(2,1fr);
+                gap: 10px;
+            }
+
+            .option-card {
+                padding: 14px 10px;
+            }
+
+            .option-card .icon {
+                font-size: 1.6rem;
+            }
+
+            .option-card .label {
+                font-size: .85rem;
+            }
+
+            .step-panel h3 {
+                font-size: 1.4rem;
+            }
+
+            .progress-steps {
+                gap: 4px;
+            }
+
+            .progress-step {
+                padding: 4px 10px;
+                font-size: .65rem;
+            }
+
+            .progress-step .num {
+                width: 18px;
+                height: 18px;
+                font-size: .6rem;
+            }
+
+            .summary-floating {
+                width: calc(100% - 32px);
+                right: 16px;
+                bottom: 16px;
+            }
+
+            .confirmation-modal {
+                padding: 28px 18px;
+            }
+
+            .confirmation-modal .details {
+                grid-template-columns: 1fr;
+            }
+
+            .calendar-grid .day {
+                padding: 6px 0;
+                font-size: .8rem;
+            }
+
+            .time-slot {
+                padding: 8px 14px;
+                font-size: .78rem;
+            }
+
+            .inspiration-card {
+                height: 270px;
+            }
+        }
+
+        @media (max-width:480px) {
+            body {
+                padding-top: 64px;
+            }
+
+            .nav {
+                padding: 12px 0;
+            }
+
+            .nav-logo {
+                font-size: 1.3rem;
+            }
+
+            .builder-3d-wrap {
+                height: 210px;
+            }
+
+            .nail-picture {
+                height: 90px;
+            }
+
+            .inspiration-grid {
+                gap: 10px;
+            }
+
+            .inspiration-card {
+                height: 230px;
+            }
+
+            .inspiration-overlay {
+                padding: 45px 12px 12px;
+            }
+
+            .inspiration-overlay h3 {
+                font-size: 1rem;
+            }
+
+            .inspiration-overlay span {
+                font-size: .62rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: .8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================================================================
+     NAV
+================================================================ -->
+<nav class="nav" id="nav">
+    <div class="container nav-inner">
+        <a href="#" class="nav-logo">Lux<span>Nails</span></a>
+        <span style="font-size:.85rem;color:var(--espresso-light);font-weight:500;">
+            ✦ Build Your Set
+        </span>
+    </div>
+</nav>
+
+
+<!-- ================================================================
+     BUILDER
+================================================================ -->
+<section class="builder" id="builder">
+
+    <div class="container">
+
+        <div class="builder-header">
+            <h1 class="serif">
+                Build Your <span class="text-gold">Nail Set</span>
+            </h1>
+            <p>Customize every detail, see it come to life in 3D.</p>
+        </div>
+
+
+        <!-- ========================================================
+             3D PREVIEW
+        ========================================================= -->
+        <div class="builder-3d-wrap" id="builder3d">
+
+            <div class="three-loading" id="threeLoading">
+                <div class="spinner"></div>
+            </div>
+
+        </div>
+
+
+        <!-- ========================================================
+             PROGRESS
+        ========================================================= -->
+        <div class="progress-steps" id="progressSteps">
+
+            <div class="progress-step active" data-step="0">
+                <span class="num">01</span> Length
+            </div>
+
+            <div class="progress-step" data-step="1">
+                <span class="num">02</span> Shape
+            </div>
+
+            <div class="progress-step" data-step="2">
+                <span class="num">03</span> Type
+            </div>
+
+            <div class="progress-step" data-step="3">
+                <span class="num">04</span> Design
+            </div>
+
+            <div class="progress-step" data-step="4">
+                <span class="num">05</span> Date & Time
+            </div>
+
+            <div class="progress-step" data-step="5">
+                <span class="num">06</span> Review
+            </div>
+
+        </div>
+
+
+        <!-- ========================================================
+             STEP 1 — LENGTH
+        ========================================================= -->
+        <div class="step-panel active" data-step="0">
+
+            <h3 class="serif">
+                Choose Your <span class="text-gold">Length</span>
+            </h3>
+
+            <p class="sub">
+                How long do you want your nails?
+            </p>
+
+            <div class="options-grid" id="lengthOptions">
+
+                <div class="option-card" data-value="short">
+                    <span class="icon">✂️</span>
+                    <span class="label">Short</span>
+                    <span class="desc">Natural & practical</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card selected" data-value="medium">
+                    <span class="icon">💅</span>
+                    <span class="label">Medium</span>
+                    <span class="desc">Versatile & elegant</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="long">
+                    <span class="icon">✨</span>
+                    <span class="label">Long</span>
+                    <span class="desc">Glamorous & bold</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="extra-long">
+                    <span class="icon">🌟</span>
+                    <span class="label">Extra Long</span>
+                    <span class="desc">Dramatic statement</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="custom">
+                    <span class="icon">✏️</span>
+                    <span class="label">Custom</span>
+                    <span class="desc">Your perfect length</span>
+                    <span class="check">✓</span>
+                </div>
+
+            </div>
+
+            <div class="step-nav">
+                <span></span>
+                <button class="btn btn-primary btn-sm next-step">
+                    Next →
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- ========================================================
+             STEP 2 — SHAPE
+        ========================================================= -->
+        <div class="step-panel" data-step="1">
+
+            <h3 class="serif">
+                Select Your <span class="text-gold">Shape</span>
+            </h3>
+
+            <p class="sub">
+                Choose the silhouette that suits your style.
+            </p>
+
+            <div class="options-grid" id="shapeOptions">
+
+                <div class="option-card" data-value="almond">
+                    <span class="icon">🥜</span>
+                    <span class="label">Almond</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card selected" data-value="coffin">
+                    <span class="icon">⚰️</span>
+                    <span class="label">Coffin</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="square">
+                    <span class="icon">▣</span>
+                    <span class="label">Square</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="oval">
+                    <span class="icon">⭕</span>
+                    <span class="label">Oval</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="stiletto">
+                    <span class="icon">🗡️</span>
+                    <span class="label">Stiletto</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="ballerina">
+                    <span class="icon">🩰</span>
+                    <span class="label">Ballerina</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="round">
+                    <span class="icon">⚪</span>
+                    <span class="label">Round</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="squoval">
+                    <span class="icon">▢</span>
+                    <span class="label">Squoval</span>
+                    <span class="check">✓</span>
+                </div>
+
+            </div>
+
+            <div class="step-nav">
+                <button class="btn btn-secondary btn-sm prev-step">
+                    ← Back
+                </button>
+
+                <button class="btn btn-primary btn-sm next-step">
+                    Next →
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- ========================================================
+             STEP 3 — TYPE
+        ========================================================= -->
+        <div class="step-panel" data-step="2">
+
+            <h3 class="serif">
+                Nail <span class="text-gold">Service</span>
+            </h3>
+
+            <p class="sub">
+                Select the technique and material.
+            </p>
+
+            <div class="options-grid" id="typeOptions">
+
+                <div class="option-card" data-value="acrylic">
+                    <span class="icon">💎</span>
+                    <span class="label">Acrylic</span>
+                    <span class="desc">1h 30m · $65–85</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card selected" data-value="gel">
+                    <span class="icon">✨</span>
+                    <span class="label">Gel</span>
+                    <span class="desc">1h 15m · $55–75</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="gel-x">
+                    <span class="icon">🌟</span>
+                    <span class="label">Gel-X</span>
+                    <span class="desc">1h 45m · $75–95</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="builder-gel">
+                    <span class="icon">🔮</span>
+                    <span class="label">Builder Gel</span>
+                    <span class="desc">1h 30m · $70–90</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="dip">
+                    <span class="icon">🧴</span>
+                    <span class="label">Dip Powder</span>
+                    <span class="desc">1h · $50–70</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="natural">
+                    <span class="icon">🌿</span>
+                    <span class="label">Natural Nails</span>
+                    <span class="desc">45m · $35–50</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="extensions">
+                    <span class="icon">📏</span>
+                    <span class="label">Extensions</span>
+                    <span class="desc">1h 30m · $60–80</span>
+                    <span class="check">✓</span>
+                </div>
+
+                <div class="option-card" data-value="custom-type">
+                    <span class="icon">🎨</span>
+                    <span class="label">Custom</span>
+                    <span class="desc">Varies · $TBD</span>
+                    <span class="check">✓</span>
+                </div>
+
+            </div>
+
+            <div class="step-nav">
+                <button class="btn btn-secondary btn-sm prev-step">
+                    ← Back
+                </button>
+
+                <button class="btn btn-primary btn-sm next-step">
+                    Next →
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- ========================================================
+             STEP 4 — DESIGN WITH PICTURES
+        ========================================================= -->
+        <div class="step-panel" data-step="3">
+
+            <h3 class="serif">
+                Design <span class="text-gold">Details</span>
+            </h3>
+
+            <p class="sub">
+                Add the finishing touches — tap any that inspire you.
+            </p>
+
+            <div class="options-grid" id="designOptions">
+
+
+                <!-- NAIL COLOR -->
+                <div class="option-card" data-value="color">
+
+                    <div class="nail-picture">
+                        <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+                            <defs>
+                                <linearGradient id="colorBg" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#f5d8d4"/>
+                                    <stop offset="100%" stop-color="#c78f86"/>
+                                </linearGradient>
+                            </defs>
+
+                            <rect width="300" height="180" fill="url(#colorBg)"/>
+
+                            <ellipse cx="150" cy="190" rx="100" ry="75"
+                                     fill="#f2cfc1"/>
+
+                            <g transform="rotate(-12 150 90)">
+                                <rect x="83" y="55" width="25" height="95"
+                                      rx="12" fill="#c98b7d"/>
+                                <rect x="116" y="45" width="27" height="105"
+                                      rx="13" fill="#e9b7b0"/>
+                                <rect x="151" y="40" width="28" height="110"
+                                      rx="14" fill="#f0c9c3"/>
+                                <rect x="187" y="48" width="27" height="102"
+                                      rx="13" fill="#dba39b"/>
+                            </g>
+
+                            <circle cx="42" cy="32" r="2" fill="#fff" opacity=".7"/>
+                            <circle cx="260" cy="45" r="3" fill="#fff" opacity=".5"/>
+                        </svg>
+                    </div>
+
+                    <span class="label">Nail Color</span>
+                    <span class="desc">Choose your shade</span>
+                    <span class="check">✓</span>
+
+                </div>
+
+
+                <!-- FRENCH -->
+                <div class="option-card" data-value="french">
+
+                    <div class="nail-picture">
+                        <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+
+                            <defs>
+                                <linearGradient id="frenchBg" x1="0" y1="0" x2="1" y2="1">
+                                    <stop stop-color="#f8eee8"/>
+                                    <stop offset="1" stop-color="#dfc2b8"/>
+                                </linearGradient>
+                            </defs>
+
+                            <rect width="300" height="180" fill="url(#frenchBg)"/>
+
+                            <g transform="rotate(-10 150 90)">
+                                <path d="M80 145 L82 65 Q85 48 98 48 Q111 48 113 65 L112 145Z"
+                                      fill="#f7e7dc"/>
+                                <path d="M115 145 L116 53 Q119 35 133 35 Q147 35 149 53 L148 145Z"
+                                      fill="#f9ece5"/>
+                                <path d="M151 145 L152 47 Q155 29 169 29 Q183 29 185 47 L184 145Z"
+                                      fill="#f9eee8"/>
+                                <path d="M187 145 L188 55 Q191 40 204 40 Q217 40 219 55 L218 145Z"
+                                      fill="#f8e9e1"/>
+
+                                <path d="M82 68 Q98 83 113 68 L113 60 Q98 75 82 60Z"
+                                      fill="#fff"/>
+                                <path d="M116 56 Q132 72 149 55 L149 47 Q132 64 116 47Z"
+                                      fill="#fff"/>
+                                <path d="M152 50 Q169 67 185 50 L185 42 Q169 59 152 42Z"
+                                      fill="#fff"/>
+                                <path d="M188 59 Q203 74 219 58 L219 50 Q203 66 188 50Z"
+                                      fill="#fff"/>
+                            </g>
+
+                        </svg>
+                    </div>
+
+                    <span class="label">French Tip</span>
+                    <span class="desc">Classic elegance</span>
+                    <span class="check">✓</span>
+
+                </div>
+
+
+                <!-- CHROME -->
+                <div class="option-card" data-value="chrome">
+
+                    <div class="nail-picture">
+                        <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+
+                            <defs>
+                                <linearGradient id="chromeBg" x1="0" y1="0" x2="1" y2="1">
+                                    <stop stop-color="#ded6d2"/>
+                                    <stop offset=".35" stop-color="#fff"/>
+                                    <stop offset=".6" stop-color="#9d8f8a"/>
+                                    <stop offset="1" stop-color="#f5f1ee"/>
+                                </linearGradient>
+                            </defs>
+
+                            <rect width="300" height="180" fill="#b7aaa5"/>
+
+                            <g transform="rotate(-8 150 90)">
+                                <rect x="83" y="45" width="29" height="105"
+                                      rx="14" fill="url(#chromeBg)"/>
+                                <rect x="119" y="34" width="30" height="116"
+                                      rx="15" fill="url(#chromeBg)"/>
+                                <rect x="156" y="30" width="30" height="120"
+                                      rx="15" fill="url(#chromeBg)"/>
+                                <rect x="193" y="42" width="29" height="108"
+                                      rx="14" fill="url(#chromeBg)"/>
+                            </g>
+
+                            <circle cx="65" cy="35" r="18" fill="#fff" opacity=".12"/>
+                            <circle cx="255" cy="135" r="25" fill="#fff" opacity=".08"/>
+
+                        </svg>
+                    </div>
+
+                    <span class="label">Chrome</span>
+                    <span class="desc">Mirror shine</span>
+                    <span class="check">✓</span>
+
+                </div>
+
+
+                <!-- GLITTER -->
+                <div class="option-card" data-value="glitter">
+
+                    <div class="nail-picture">
+                        <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+
+                            <defs>
+                                <linearGradient id="glitterBg" x1="0" y1="0" x2="1" y2="1">
+                                    <stop stop-color="#c69c6d"/>
+                                    <stop offset=".5" stop-color="#f4dfbc"/>
+                                    <stop offset="1" stop-color="#b87f5b"/>
+                                </linearGradient>
+
+                                <pattern id="sparkles" width="28" height="28"
+                                         patternUnits="userSpaceOnUse">
+                                    <circle cx="5" cy="7" r="2" fill="#fff"/>
+                                    <circle cx="18" cy="18" r="1.5" fill="#fff"/>
+                                    <path d="M13 3 L15 8 L20 10 L15 12 L13 17 L11 12 L6 10 L11 8Z"
+                                          fill="#fff" opacity=".8"/>
+                                </pattern>
+                            </defs>
+
+                            <rect width="300" height="180" fill="url(#glitterBg)"/>
+                            <rect width="300" height="180" fill="url(#sparkles)" opacity=".7"/>
+
+                            <g transform="rotate(-12 150 90)">
+                                <rect x="80" y="48" width="30" height="102"
+                                      rx="14" fill="#e5c49b"/>
+                                <rect x="117" y="38" width="31" height="112"
+                                      rx="15" fill="#f1d8b2"/>
+                                <rect x="155" y="32" width="31" height="118"
+                                      rx="15" fill="#f5deb9"/>
+                                <rect x="193" y="45" width="30" height="105"
+                                      rx="14" fill="#d8b383"/>
+                            </g>
+
+                        </svg>
+                    </div>
+
+                    <span class="label">Glitter</span>
+                    <span class="desc">Sparkle & shine</span>
+                    <span class="check">✓</span>
+
+                </div>
+
+
+                <!-- CAT EYE -->
+                <div class="option-card" data-value="cat-eye">
+
+                    <div class="nail-picture">
+                        <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+
+                            <defs>
+                                <linearGradient id="catBg" x1="0" y1="0" x2="1" y2="1">
+                                    <stop stop-color="#1d1515"/>
+                                    <stop offset=".45" stop-color="#76543f"/>
+                                    <stop offset=".55" stop-color="#d3a66c"/>
+                                    <stop offset="1" stop-color="#211718"/>
+                                </linearGradient>
+                            </defs>
+
+                            <rect width="300" height="180" fill="#261b19"/>
+
+                            <g transform="rotate(-8 150 90)">
+                                <rect x="83" y="45" width="29" height="105"
+                                      rx="14" fill="url(#catBg)"/>
+                                <rect x="119" y="35" width="30" height="115"
+                                      rx="15" fill="url(#catBg)"/>
+                                <rect x="156" y="30" width="30" height="120"
+                                      rx="15" fill="url(#catBg)"/>
+                                <rect x="193" y="43" width="29" height="107"
+                                      rx="14" fill="url(#catBg)"/>
+                            </g>
+
+                        </svg>
+                    </div>
+
+                    <span class="label">Cat-Eye</span>
+                    <span class="desc">Magnetic depth</span>
+                    <span class="check">✓</span>
+
+                </div>
+
+
+                <!-- 3D DESIGN -->
+                <div class="option-card" data-value="3d">
+
+                    <div class="nail-picture">
+                        <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+
+                            <defs>
+                                <linearGradient id="threeDBg" x1="0" y1="0" x2="1" y2="1">
+                                    <stop stop-color="#f2d4d3"/>
+                                    <stop offset="1" stop-color="#bd8986"/>
+                                </linearGradient>
+                            </defs>
+
+                            <rect width="300" height="180" fill="url(#threeDBg)"/>
+
+                            <g transform="rotate(-10 150 90)">
+                                <rect x="87" y="45" width="28" height="105"
+                                      rx="14" fill="#f5e5df"/>
+                                <rect x="123" y="36" width="29" height="114"
+                                      rx="14" fill="#f5e5df"/>
+                                <rect x="160" y="31" width="29" height="119"
+                                      rx="14" fill="#f5e5df"/>
+                                <rect x="197" y="45" width="28" height="105"
+                                      rx="14" fill="#f5e5df"/>
+
+                                <g fill="#d89b9a">
+                                    <circle cx="137" cy="82" r="8"/>
+                                    <circle cx="128" cy="90" r="8"/>
+                                    <circle cx="146" cy="90" r="8"/>
+                                    <circle cx="137" cy="98" r="8"/>
+
+                                    <circle cx="174" cy="72" r="8"/>
+                                    <circle cx="165" cy="80" r="8"/>
+                                    <circle cx="183" cy="80" r="8"/>
+                                    <circle cx="174" cy="88" r="8"/>
+                                </g>
+
+                            </g>
+
+                        </svg>
+                    </div>
+
+                    <span class="label">3D Designs</span>
+                    <span class="desc">Sculptural art</span>
+                    <span class="check">✓</span>
+
+                </div>
+
+
+                <!-- CHARMS -->
+                <div class="option-card" data-value="charms">
+
+                    <div class="nail-picture">
+                        <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+
+                            <rect width="300" height="180" fill="#ead5c9"/>
+
+                            <g transform="rotate(-10 150 90)">
+                                <rect x="85" y="45" width="29" height="105"
+                                      rx="14" fill="#f8e9e1"/>
+                                <rect x="121" y="35" width="30" height="115"
+                                      rx="15" fill="#f6e5dd"/>
+                                <rect x="158" y="30" width="30" height="120"
+                                      rx="15" fill="#f8e9e1"/>
+                                <rect x="195" y="45" width="29" height="105"
+                                      rx="14" fill="#f5e1d9"/>
+
+                                <g fill="#d4a574" stroke="#fff" stroke-width="2">
+                                    <circle cx="135" cy="82" r="7"/>
+                                    <circle cx="173" cy="72" r="7"/>
+                                    <path d="M203 75 l6 8 -6 8 -6 -8z"/>
+                                </g>
+                            </g>
+
+                        </svg>
+                    </div>
+
+                    <span class="label">Charms</span>
+                    <span class="desc">Delicate accents</span>
+                    <span class="check">✓</span>
+
+                </div>
+
+
+                <!-- RHINESTONES -->
+                <div class="option-card" data-value="rhinestones">
+
+                    <div class="nail-picture">
+                        <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+
+                            <defs>
+                                <radialGradient id="stoneBg">
+                                    <stop stop-color="#fff"/>
+                                    <stop offset=".5" stop-color="#e5d9d5"/>
+                                    <stop offset="1" stop-color="#9f8e89"/>
+                                </radialGradient>
+                            </defs>
+
+                            <rect width="300" height="180" fill="#d8c6c0"/>
+
+                            <g transform="rotate(-8 150 90)">
+                                <rect x="84" y="45" width="29" height="105"
+                                      rx="14" fill="#f4e5df"/>
+                                <rect x="120" y="35" width="30" height="115"
+                                      rx="15" fill="#f8eee9"/>
+                                <rect x="157" y="30" width="30" height="120"
+                                      rx="15" fill="#f7e9e4"/>
+                                <rect x="194" y="43" width="29" height="107"
+                                      rx="14" fill="#f4e3dd"/>
+
+                                <g fill="url(#stoneBg)" stroke="#fff" stroke-width="1">
+                                    <circle cx="134" cy="78" r="5"/>
+                                    <circle cx="145" cy="88" r="4"/>
+                                    <circle cx="172" cy="70" r="5"/>
+                                    <circle cx="181" cy="82" r="4"/>
+                                    <circle cx="205" cy="92" r="5"/>
+                                </g>
+                            </g>
+
+                        </svg>
+                    </div>
+
+                    <span class="label">Rhinestones</span>
+                    <span class="desc">Crystal sparkle</span>
+                    <span class="check">✓</span>
+
+                </div>
+
+
+                <!-- NAIL ART -->
+                <div class="option-card" data-value="nail-art">
+
+                    <div class="nail-picture">
+                        <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+
+                            <rect width="300" height="180" fill="#e6c5c0"/>
+
+                            <g transform="rotate(-10 150 90)">
+                                <rect x="85" y="45" width="29" height="105"
+                                      rx="14" fill="#f6e5df"/>
+                                <rect x="121" y="35" width="30" height="115"
+                                      rx="15" fill="#f8ebe6"/>
+                                <rect x="158" y="30" width="30" height="120"
+                                      rx="15" fill="#f7e8e2"/>
+                                <rect x="195" y="43" width="29" height="107"
+                                      rx="14" fill="#f5e2dc"/>
+
+                                <path d="M129 90 Q137 70 145 90 Q137 110 129 90"
+                                      fill="#d59a96"/>
+                                <path d="M166 75 Q175 55 184 75 Q175 95 166 75"
+                                      fill="#c98482"/>
+                                <path d="M201 94 Q210 74 218 94 Q210 114 201 94"
+                                      fill="#d4a574"/>
+                            </g>
+
+                        </svg>
+                    </div>
+
+                    <span class="label">Nail Art</span>
+                    <span class="desc">Custom designs</span>
+                    <span class="check">✓</span>
+
+                </div>
+
+
+                <!-- UPLOAD -->
+                <div class="option-card" data-value="custom-design">
+
+                    <div class="nail-picture">
+                        <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+
+                            <defs>
+                                <linearGradient id="uploadBg" x1="0" y1="0" x2="1" y2="1">
+                                    <stop stop-color="#3c2415"/>
+                                    <stop offset=".55" stop-color="#8e6851"/>
+                                    <stop offset="1" stop-color="#d4a574"/>
+                                </linearGradient>
+                            </defs>
+
+                            <rect width="300" height="180" fill="url(#uploadBg)"/>
+
+                            <circle cx="150" cy="75" r="35"
+                                    fill="rgba(255,255,255,.15)"
+                                    stroke="#fff"
+                                    stroke-width="2"/>
+
+                            <path d="M150 53 V98 M127 76 H173"
+                                  stroke="#fff"
+                                  stroke-width="5"
+                                  stroke-linecap="round"/>
+
+                            <text x="150" y="135"
+                                  text-anchor="middle"
+                                  fill="#fff"
+                                  font-family="Inter"
+                                  font-size="12">
+                                YOUR DESIGN
+                            </text>
+
+                        </svg>
+                    </div>
+
+                    <span class="label">Upload Design</span>
+                    <span class="desc">Your reference image</span>
+                    <span class="check">✓</span>
+
+                </div>
+
+            </div>
+
+            <div class="step-nav">
+                <button class="btn btn-secondary btn-sm prev-step">
+                    ← Back
+                </button>
+
+                <button class="btn btn-primary btn-sm next-step">
+                    Next →
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- ========================================================
+             STEP 5 — DATE & TIME
+        ========================================================= -->
+        <div class="step-panel" data-step="4">
+
+            <h3 class="serif">
+                Pick Your <span class="text-gold">Date & Time</span>
+            </h3>
+
+            <p class="sub">
+                When would you like to come in?
+            </p>
+
+            <div class="calendar-wrap">
+
+                <div>
+
+                    <div class="calendar-month">
+                        <button id="calPrev">‹</button>
+                        <h4 id="calMonthLabel"></h4>
+                        <button id="calNext">›</button>
+                    </div>
+
+                    <div class="calendar-grid" id="calendarGrid"></div>
+
+                </div>
+
+
+                <div>
+
+                    <h4 style="font-size:1rem;font-weight:600;margin-bottom:8px;">
+                        Available Times
+                    </h4>
+
+                    <div class="time-slots" id="timeSlots">
+
+                        <button class="time-slot" data-time="9:00 AM">9:00 AM</button>
+                        <button class="time-slot" data-time="10:00 AM">10:00 AM</button>
+                        <button class="time-slot" data-time="11:00 AM">11:00 AM</button>
+                        <button class="time-slot" data-time="12:00 PM">12:00 PM</button>
+                        <button class="time-slot" data-time="1:00 PM">1:00 PM</button>
+                        <button class="time-slot" data-time="2:00 PM">2:00 PM</button>
+                        <button class="time-slot" data-time="3:00 PM">3:00 PM</button>
+                        <button class="time-slot" data-time="4:00 PM">4:00 PM</button>
+                        <button class="time-slot" data-time="5:00 PM">5:00 PM</button>
+                        <button class="time-slot" data-time="6:00 PM">6:00 PM</button>
+                        <button class="time-slot" data-time="7:00 PM">7:00 PM</button>
+                        <button class="time-slot" data-time="8:00 PM">8:00 PM</button>
+
+                    </div>
+
+                    <div class="est-duration-display">
+                        ⏱️ Estimated duration:
+                        <strong id="estDurationDisplay">1h 15m</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="step-nav">
+
+                <button class="btn btn-secondary btn-sm prev-step">
+                    ← Back
+                </button>
+
+                <button class="btn btn-primary btn-sm next-step">
+                    Review & Book →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================================================
+             STEP 6 — REVIEW
+        ========================================================= -->
+        <div class="step-panel" data-step="5">
+
+            <h3 class="serif">
+                Review & <span class="text-gold">Book</span>
+            </h3>
+
+            <p class="sub">
+                Confirm your perfect set and secure your appointment.
+            </p>
+
+            <div class="review-grid">
+
+                <div>
+
+                    <h4 style="font-size:1.1rem;margin-bottom:12px;">
+                        Your Selection
+                    </h4>
+
+                    <div class="review-details">
+
+                        <div class="row">
+                            <span class="key">Length</span>
+                            <span class="value" id="revLength">Medium</span>
+                        </div>
+
+                        <div class="row">
+                            <span class="key">Shape</span>
+                            <span class="value" id="revShape">Coffin</span>
+                        </div>
+
+                        <div class="row">
+                            <span class="key">Type</span>
+                            <span class="value" id="revType">Gel</span>
+                        </div>
+
+                        <div class="row">
+                            <span class="key">Design</span>
+                            <span class="value" id="revDesign">—</span>
+                        </div>
+
+                        <div class="row">
+                            <span class="key">Date</span>
+                            <span class="value" id="revDate">—</span>
+                        </div>
+
+                        <div class="row">
+                            <span class="key">Time</span>
+                            <span class="value" id="revTime">—</span>
+                        </div>
+
+                        <div class="row">
+                            <span class="key">Duration</span>
+                            <span class="value" id="revDuration">1h 15m</span>
+                        </div>
+
+                        <div class="row total">
+                            <span>Total</span>
+                            <span id="revPrice">$55–75</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="review-summary-card">
+
+                        <div class="emoji">💅</div>
+
+                        <p>
+                            You're about to book a
+                            <strong id="revTypeShort">Gel</strong>
+                            set with
+                            <strong id="revShapeShort">Coffin</strong>
+                            nails.
+                        </p>
+
+                    </div>
+
+                    <div class="review-actions">
+
+                        <button class="btn btn-gold w-full" id="confirmBookBtn">
+                            ✦ Book Appointment
+                        </button>
+
+                        <button class="btn btn-secondary btn-sm w-full prev-step">
+                            ← Go Back
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================================
+     INSPIRATION GALLERY
+================================================================ -->
+<section class="nail-inspiration">
+
+    <div class="container">
+
+        <div class="inspiration-header">
+
+            <h2 class="serif">
+                Find Your <span class="text-gold">Inspiration</span>
+            </h2>
+
+            <p>
+                Explore our signature looks and discover your next set.
+            </p>
+
+        </div>
+
+
+        <div class="inspiration-grid">
+
+
+            <!-- LOOK 1 -->
+            <div class="inspiration-card">
+
+                <svg viewBox="0 0 500 600" preserveAspectRatio="xMidYMid slice">
+
+                    <defs>
+                        <linearGradient id="look1" x1="0" y1="0" x2="1" y2="1">
+                            <stop stop-color="#f2d5d0"/>
+                            <stop offset="1" stop-color="#9f706a"/>
+                        </linearGradient>
+                    </defs>
+
+                    <rect width="500" height="600" fill="url(#look1)"/>
+
+                    <ellipse cx="250" cy="570" rx="190" ry="250"
+                             fill="#e6b9ad"/>
+
+                    <g transform="rotate(-10 250 300)">
+
+                        <rect x="145" y="100" width="55" height="300"
+                              rx="27" fill="#f5ded8"/>
+
+                        <rect x="215" y="75" width="58" height="325"
+                              rx="29" fill="#f8e5df"/>
+
+                        <rect x="290" y="95" width="56" height="305"
+                              rx="28" fill="#f4d8d2"/>
+
+                    </g>
+
+                    <circle cx="100" cy="120" r="40"
+                            fill="#fff" opacity=".12"/>
+
+                </svg>
+
+                <div class="inspiration-overlay">
+
+                    <h3>Soft Luxury</h3>
+
+                    <span>
+                        Medium · Almond · Gel
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOOK 2 -->
+            <div class="inspiration-card">
+
+                <svg viewBox="0 0 500 600" preserveAspectRatio="xMidYMid slice">
+
+                    <defs>
+                        <linearGradient id="look2" x1="0" y1="0" x2="1" y2="1">
+                            <stop stop-color="#f7eee9"/>
+                            <stop offset="1" stop-color="#c5a096"/>
+                        </linearGradient>
+                    </defs>
+
+                    <rect width="500" height="600" fill="url(#look2)"/>
+
+                    <ellipse cx="250" cy="570" rx="190" ry="250"
+                             fill="#e7c2b6"/>
+
+                    <g transform="rotate(-8 250 300)">
+
+                        <rect x="125" y="100" width="58" height="310"
+                              rx="29" fill="#faf3ee"/>
+
+                        <rect x="200" y="70" width="60" height="340"
+                              rx="30" fill="#fbf5f1"/>
+
+                        <rect x="275" y="85" width="60" height="325"
+                              rx="30" fill="#faf2ec"/>
+
+                        <path d="M125 150 Q154 180 183 150 L183 130 Q154 160 125 130Z"
+                              fill="#fff"/>
+
+                        <path d="M200 130 Q230 160 260 130 L260 110 Q230 140 200 110Z"
+                              fill="#fff"/>
+
+                        <path d="M275 145 Q305 175 335 145 L335 125 Q305 155 275 125Z"
+                              fill="#fff"/>
+
+                    </g>
+
+                </svg>
+
+                <div class="inspiration-overlay">
+
+                    <h3>Classic French</h3>
+
+                    <span>
+                        Long · Almond · Gel-X
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOOK 3 -->
+            <div class="inspiration-card">
+
+                <svg viewBox="0 0 500 600" preserveAspectRatio="xMidYMid slice">
+
+                    <defs>
+
+                        <linearGradient id="look3" x1="0" y1="0" x2="1" y2="1">
+                            <stop stop-color="#88817d"/>
+                            <stop offset=".35" stop-color="#ffffff"/>
+                            <stop offset=".55" stop-color="#625955"/>
+                            <stop offset="1" stop-color="#d5ccc8"/>
+                        </linearGradient>
+
+                    </defs>
+
+                    <rect width="500" height="600" fill="#8e817b"/>
+
+                    <ellipse cx="250" cy="570" rx="190" ry="250"
+                             fill="#c7aaa0"/>
+
+                    <g transform="rotate(-10 250 300)">
+
+                        <rect x="130" y="90" width="60" height="330"
+                              rx="30" fill="url(#look3)"/>
+
+                        <rect x="205" y="65" width="62" height="355"
+                              rx="31" fill="url(#look3)"/>
+
+                        <rect x="282" y="85" width="62" height="335"
+                              rx="31" fill="url(#look3)"/>
+
+                    </g>
+
+                    <circle cx="110" cy="100" r="65"
+                            fill="#fff" opacity=".08"/>
+
+                </svg>
+
+                <div class="inspiration-overlay">
+
+                    <h3>Liquid Chrome</h3>
+
+                    <span>
+                        Long · Coffin · Gel-X
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOOK 4 -->
+            <div class="inspiration-card">
+
+                <svg viewBox="0 0 500 600" preserveAspectRatio="xMidYMid slice">
+
+                    <defs>
+
+                        <linearGradient id="look4" x1="0" y1="0" x2="1" y2="1">
+                            <stop stop-color="#9c6a49"/>
+                            <stop offset=".45" stop-color="#efd09f"/>
+                            <stop offset="1" stop-color="#8e5338"/>
+                        </linearGradient>
+
+                        <pattern id="sparkle" width="45" height="45"
+                                 patternUnits="userSpaceOnUse">
+
+                            <circle cx="10" cy="10" r="3" fill="#fff"/>
+                            <circle cx="30" cy="30" r="2" fill="#fff"/>
+
+                            <path d="M22 5 L25 17 L37 20 L25 23 L22 35 L19 23 L7 20 L19 17Z"
+                                  fill="#fff"
+                                  opacity=".7"/>
+
+                        </pattern>
+
+                    </defs>
+
+                    <rect width="500" height="600" fill="url(#look4)"/>
+                    <rect width="500" height="600" fill="url(#sparkle)" opacity=".7"/>
+
+                    <ellipse cx="250" cy="570" rx="190" ry="250"
+                             fill="#d09b77"/>
+
+                    <g transform="rotate(-9 250 300)">
+
+                        <rect x="130" y="90" width="62" height="330"
+                              rx="31" fill="#e5c092"/>
+
+                        <rect x="205" y="60" width="64" height="360"
+                              rx="32" fill="#f1d4a3"/>
+
+                        <rect x="282" y="85" width="62" height="335"
+                              rx="31" fill="#d8aa76"/>
+
+                    </g>
+
+                </svg>
+
+                <div class="inspiration-overlay">
+
+                    <h3>Golden Sparkle</h3>
+
+                    <span>
+                        Extra Long · Coffin · Acrylic
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================================
+     FLOATING SUMMARY
+================================================================ -->
+<div class="summary-floating" id="summaryFloating">
+
+    <h4>✦ Your Nail Set</h4>
+
+    <div class="item">
+        <span class="key">Length</span>
+        <span class="value" id="sumLength">Medium</span>
+    </div>
+
+    <div class="item">
+        <span class="key">Shape</span>
+        <span class="value" id="sumShape">Coffin</span>
+    </div>
+
+    <div class="item">
+        <span class="key">Type</span>
+        <span class="value" id="sumType">Gel</span>
+    </div>
+
+    <div class="item">
+        <span class="key">Design</span>
+        <span class="value" id="sumDesign">—</span>
+    </div>
+
+    <div class="item">
+        <span class="key">Date</span>
+        <span class="value" id="sumDate">—</span>
+    </div>
+
+    <div class="item">
+        <span class="key">Time</span>
+        <span class="value" id="sumTime">—</span>
+    </div>
+
+    <div class="total">
+        <span>Est. time</span>
+        <span id="sumDuration">1h 15m</span>
+    </div>
+
+    <div class="total" style="border-top-color:var(--gold-dark);">
+        <span>Price</span>
+        <span id="sumPrice">$55–75</span>
+    </div>
+
+</div>
+
+
+<!-- ================================================================
+     CONFIRMATION
+================================================================ -->
+<div class="confirmation-overlay" id="confirmationOverlay">
+
+    <div class="confirmation-modal">
+
+        <div class="check">✓</div>
+
+        <h2 class="serif">
+            Your appointment is booked.
+        </h2>
+
+        <p class="sub">
+            We can't wait to bring your vision to life.
+        </p>
+
+        <div class="details">
+
+            <div class="d-item">
+                <span class="d-key">Date</span>
+                <div class="d-value" id="confDate">—</div>
+            </div>
+
+            <div class="d-item">
+                <span class="d-key">Time</span>
+                <div class="d-value" id="confTime">—</div>
+            </div>
+
+            <div class="d-item">
+                <span class="d-key">Nail Type</span>
+                <div class="d-value" id="confType">—</div>
+            </div>
+
+            <div class="d-item">
+                <span class="d-key">Length</span>
+                <div class="d-value" id="confLength">—</div>
+            </div>
+
+            <div class="d-item">
+                <span class="d-key">Shape</span>
+                <div class="d-value" id="confShape">—</div>
+            </div>
+
+            <div class="d-item">
+                <span class="d-key">Design</span>
+                <div class="d-value" id="confDesign">—</div>
+            </div>
+
+            <div class="d-item">
+                <span class="d-key">Duration</span>
+                <div class="d-value" id="confDuration">—</div>
+            </div>
+
+            <div class="d-item">
+                <span class="d-key">Price</span>
+                <div class="d-value" id="confPrice">—</div>
+            </div>
+
+        </div>
+
+        <div class="actions">
+
+            <button class="btn btn-primary btn-sm"
+                    onclick="closeConfirmation()">
+                📅 Add to Calendar
+            </button>
+
+            <button class="btn btn-secondary btn-sm"
+                    onclick="closeConfirmation()">
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================================================================
+     THREE.JS
+================================================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+
+<script>
+
+    /* ============================================================
+       STATE
+    ============================================================ */
+
+    const state = {
+
+        length: 'medium',
+
+        shape: 'coffin',
+
+        type: 'gel',
+
+        designs: [],
+
+        date: null,
+
+        time: null,
+
+        currentStep: 0,
+
+        totalSteps: 6
+
+    };
+
+
+    const lengthLabels = {
+
+        short: 'Short',
+
+        medium: 'Medium',
+
+        long: 'Long',
+
+        'extra-long': 'Extra Long',
+
+        custom: 'Custom'
+
+    };
+
+
+    const shapeLabels = {
+
+        almond: 'Almond',
+
+        coffin: 'Coffin',
+
+        square: 'Square',
+
+        oval: 'Oval',
+
+        stiletto: 'Stiletto',
+
+        ballerina: 'Ballerina',
+
+        round: 'Round',
+
+        squoval: 'Squoval'
+
+    };
+
+
+    const typeLabels = {
+
+        acrylic: 'Acrylic',
+
+        gel: 'Gel',
+
+        'gel-x': 'Gel-X',
+
+        'builder-gel': 'Builder Gel',
+
+        dip: 'Dip Powder',
+
+        natural: 'Natural Nails',
+
+        extensions: 'Extensions',
+
+        'custom-type': 'Custom'
+
+    };
+
+
+    const typeDurations = {
+
+        acrylic: '1h 30m',
+
+        gel: '1h 15m',
+
+        'gel-x': '1h 45m',
+
+        'builder-gel': '1h 30m',
+
+        dip: '1h',
+
+        natural: '45m',
+
+        extensions: '1h 30m',
+
+        'custom-type': 'Varies'
+
+    };
+
+
+    const typePrices = {
+
+        acrylic: '$65–85',
+
+        gel: '$55–75',
+
+        'gel-x': '$75–95',
+
+        'builder-gel': '$70–90',
+
+        dip: '$50–70',
+
+        natural: '$35–50',
+
+        extensions: '$60–80',
+
+        'custom-type': '$TBD'
+
+    };
+
+
+    const designLabels = {
+
+        color: 'Nail Color',
+
+        french: 'French Tip',
+
+        chrome: 'Chrome',
+
+        glitter: 'Glitter',
+
+        'cat-eye': 'Cat-Eye',
+
+        '3d': '3D Designs',
+
+        charms: 'Charms',
+
+        rhinestones: 'Rhinestones',
+
+        'nail-art': 'Nail Art',
+
+        'custom-design': 'Upload Design'
+
+    };
+
+
+    /* ============================================================
+       THREE.JS
+    ============================================================ */
+
+    let scene;
+
+    let camera;
+
+    let renderer;
+
+    let controls;
+
+    let handGroup;
+
+    let nailMeshes = [];
+
+    let animFrame;
+
+
+    function initThree() {
+
+        const container = document.getElementById('builder3d');
+
+        const w = container.clientWidth;
+
+        const h = container.clientHeight || 400;
+
+
+        scene = new THREE.Scene();
+
+        scene.background = new THREE.Color(0xfaf6f0);
+
+
+        camera = new THREE.PerspectiveCamera(
+            32,
+            w / h,
+            0.1,
+            100
+        );
+
+        camera.position.set(0,1,7.5);
+
+        camera.lookAt(0,.2,0);
+
+
+        renderer = new THREE.WebGLRenderer({
+            antialias:true,
+            alpha:true
+        });
+
+        renderer.setSize(w,h);
+
+        renderer.setPixelRatio(
+            Math.min(window.devicePixelRatio,2)
+        );
+
+        renderer.shadowMap.enabled = true;
+
+        renderer.shadowMap.type =
+            THREE.PCFSoftShadowMap;
+
+        renderer.toneMapping =
+            THREE.ACESFilmicToneMapping;
+
+        renderer.toneMappingExposure = 1.2;
+
+
+        container.appendChild(renderer.domElement);
+
+
+        controls = new THREE.OrbitControls(
+            camera,
+            renderer.domElement
+        );
+
+        controls.enableDamping = true;
+
+        controls.dampingFactor = .08;
+
+        controls.rotateSpeed = .6;
+
+        controls.minDistance = 2.5;
+
+        controls.maxDistance = 12;
+
+        controls.target.set(0,.2,0);
+
+        controls.update();
+
+
+        const ambient =
+            new THREE.AmbientLight(0xffeedd,.4);
+
+        scene.add(ambient);
+
+
+        const key =
+            new THREE.DirectionalLight(0xfff5ee,1.2);
+
+        key.position.set(2,3,4);
+
+        key.castShadow = true;
+
+        scene.add(key);
+
+
+        const fill =
+            new THREE.DirectionalLight(0xd4c0b8,.6);
+
+        fill.position.set(-3,1,2);
+
+        scene.add(fill);
+
+
+        const rim =
+            new THREE.DirectionalLight(0xffffff,.5);
+
+        rim.position.set(0,-1,-3);
+
+        scene.add(rim);
+
+
+        const point =
+            new THREE.PointLight(0xffd4c0,.3,8);
+
+        point.position.set(1,2,2);
+
+        scene.add(point);
+
+
+        buildHand();
+
+
+        document
+            .getElementById('threeLoading')
+            .classList.add('hidden');
+
+
+        animate();
+
+
+        window.addEventListener('resize',() => {
+
+            const w2 = container.clientWidth;
+
+            const h2 = container.clientHeight || 400;
+
+            camera.aspect = w2/h2;
+
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(w2,h2);
+
+        });
+
+    }
+
+
+    function buildHand() {
+
+        if(handGroup) {
+
+            scene.remove(handGroup);
+
+            handGroup.traverse(c => {
+
+                if(c.geometry)
+                    c.geometry.dispose();
+
+                if(c.material)
+                    c.material.dispose();
+
+            });
+
+        }
+
+
+        handGroup = new THREE.Group();
+
+        nailMeshes = [];
+
+
+        /* Palm */
+
+        const palmGeo =
+            new THREE.SphereGeometry(
+                .8,32,24
+            );
+
+
+        const palmMat =
+            new THREE.MeshStandardMaterial({
+                color:0xf5e0d8,
+                roughness:.7,
+                metalness:0
+            });
+
+
+        const palm =
+            new THREE.Mesh(
+                palmGeo,
+                palmMat
+            );
+
+
+        palm.scale.set(1.5,.5,.9);
+
+        palm.position.set(0,-.2,0);
+
+        palm.castShadow = true;
+
+        handGroup.add(palm);
+
+
+        const fingerData = [
+
+            {
+                x:-.75,
+                z:.55,
+                rot:-.25,
+                len:1
+            },
+
+            {
+                x:-.45,
+                z:.85,
+                rot:-.10,
+                len:1.1
+            },
+
+            {
+                x:-.05,
+                z:.95,
+                rot:0,
+                len:1.15
+            },
+
+            {
+                x:.35,
+                z:.85,
+                rot:.10,
+                len:1.1
+            },
+
+            {
+                x:.70,
+                z:.60,
+                rot:.30,
+                len:1
+            }
+
+        ];
+
+
+        fingerData.forEach(fd => {
+
+            const fingerGroup =
+                new THREE.Group();
+
+
+            const fGeo =
+                new THREE.CylinderGeometry(
+                    .16,
+                    .20,
+                    fd.len,
+                    12
+                );
+
+
+            const fMat =
+                new THREE.MeshStandardMaterial({
+                    color:0xf5e0d8,
+                    roughness:.7
+                });
+
+
+            const finger =
+                new THREE.Mesh(
+                    fGeo,
+                    fMat
+                );
+
+
+            finger.position.y =
+                fd.len/2+.15;
+
+
+            finger.rotation.x = .1;
+
+            finger.castShadow = true;
+
+            fingerGroup.add(finger);
+
+
+            const tipGeo =
+                new THREE.SphereGeometry(
+                    .19,
+                    12,
+                    10
+                );
+
+
+            const tipMat =
+                new THREE.MeshStandardMaterial({
+                    color:0xf5e0d8,
+                    roughness:.7
+                });
+
+
+            const tip =
+                new THREE.Mesh(
+                    tipGeo,
+                    tipMat
+                );
+
+
+            tip.position.y =
+                fd.len+.15;
+
+
+            tip.scale.set(1,.7,.9);
+
+            tip.castShadow = true;
+
+            fingerGroup.add(tip);
+
+
+            fingerGroup.position.set(
+                fd.x,
+                -.1,
+                fd.z
+            );
+
+
+            fingerGroup.rotation.z =
+                fd.rot;
+
+
+            fingerGroup.rotation.x =
+                -.05;
+
+
+            handGroup.add(fingerGroup);
+
+
+            const nail =
+                buildNail(fd);
+
+
+            fingerGroup.add(nail);
+
+            nailMeshes.push({
+                mesh:nail,
+                fingerGroup,
+                fingerData:fd
+            });
+
+        });
+
+
+        scene.add(handGroup);
+
+        updateNails();
+
+    }
+
+
+    function buildNail(fd) {
+
+        const group =
+            new THREE.Group();
+
+
+        const scaleY =
+            state.length === 'short'
+                ? .6
+                : state.length === 'medium'
+                ? .85
+                : state.length === 'long'
+                ? 1.15
+                : 1.4;
+
+
+        const bedLen =
+            .3 +
+            (
+                state.length === 'long' ||
+                state.length === 'extra-long'
+                    ? .15
+                    : 0
+            );
+
+
+        const bedGeo =
+            new THREE.CylinderGeometry(
+                .16,
+                .18,
+                bedLen,
+                12
+            );
+
+
+        const bedMat =
+            new THREE.MeshStandardMaterial({
+                color:0xf0d5c8,
+                roughness:.6
+            });
+
+
+        const bed =
+            new THREE.Mesh(
+                bedGeo,
+                bedMat
+            );
+
+
+        bed.position.y = .05;
+
+        bed.rotation.x = .15;
+
+        group.add(bed);
+
+
+        const tipShape =
+            createNailShape(
+                state.shape,
+                scaleY
+            );
+
+
+        const tipMat =
+            new THREE.MeshStandardMaterial({
+
+                color:getNailColor(),
+
+                roughness:getNailRoughness(),
+
+                metalness:getNailMetalness(),
+
+                envMapIntensity:getNailEnvMap()
+
+            });
+
+
+        const tipMesh =
+            new THREE.Mesh(
+                tipShape,
+                tipMat
+            );
+
+
+        tipMesh.position.y =
+            bedLen+.02;
+
+
+        tipMesh.rotation.x=.15;
+
+        tipMesh.castShadow=true;
+
+        tipMesh.receiveShadow=true;
+
+
+        group.add(tipMesh);
+
+
+        group.userData = {
+            tipMesh,
+            tipMat,
+            bed,
+            bedMat
+        };
+
+
+        group.position.y =
+            fd.len+.15;
+
+
+        return group;
+
+    }
+
+
+    function createNailShape(shape,scaleY) {
+
+        const w=.18;
+
+        const h=.35*scaleY;
+
+        const tip=.12*scaleY;
+
+        const pts=[];
+
+        const steps=24;
+
+
+        for(let i=0;i<=steps;i++){
+
+            const t=i/steps;
+
+            const y=t*(h+tip);
+
+            let x=0;
+
+
+            if(t<.1){
+
+                x=w*(t/.1);
+
+            }
+
+            else if(t<.7){
+
+                x=w;
+
+            }
+
+            else{
+
+                const p=(t-.7)/.3;
+
+                x=w*(1-p*.4);
+
+            }
+
+
+            if(shape==='almond'){
+
+                const p=y/(h+tip);
+
+                x*=1-p*.45;
+
+            }
+
+            else if(shape==='stiletto'){
+
+                const p=y/(h+tip);
+
+                x*=1-p*.75;
+
+            }
+
+            else if(shape==='coffin'){
+
+                const p=y/(h+tip);
+
+                if(p>.7)
+                    x*=.5+(p-.7)*1.2;
+
+            }
+
+            else if(shape==='square'){
+
+                const p=y/(h+tip);
+
+                if(p>.8)
+                    x*=.8;
+
+            }
+
+            else if(shape==='ballerina'){
+
+                const p=y/(h+tip);
+
+                if(p>.6)
+                    x*=.5+(p-.6)*.8;
+
+            }
+
+            else if(shape==='round'){
+
+                const p=y/(h+tip);
+
+                x*=1-p*.25;
+
+            }
+
+            else if(shape==='squoval'){
+
+                const p=y/(h+tip);
+
+                if(p>.7)
+                    x*=.7;
+
+            }
+
+
+            pts.push(
+                new THREE.Vector2(x,y)
+            );
+
+        }
+
+
+        const shape2d =
+            new THREE.Shape(pts);
+
+
+        const extrudeSettings = {
+
+            steps:4,
+
+            depth:.08,
+
+            bevelEnabled:true,
+
+            bevelThickness:.02,
+
+            bevelSize:.02,
+
+            bevelSegments:6
+
+        };
+
+
+        const geo =
+            new THREE.ExtrudeGeometry(
+                shape2d,
+                extrudeSettings
+            );
+
+
+        geo.computeVertexNormals();
+
+        return geo;
+
+    }
+
+
+    function getNailColor(){
+
+        if(state.designs.includes('chrome'))
+            return 0xd4c0a0;
+
+        if(state.designs.includes('glitter'))
+            return 0xe8c4c0;
+
+        if(state.designs.includes('french'))
+            return 0xf5e8e0;
+
+        if(state.designs.includes('cat-eye'))
+            return 0x8a6e5a;
+
+        if(state.designs.includes('color'))
+            return 0xd4a574;
+
+        return 0xe8c4c0;
+
+    }
+
+
+    function getNailRoughness(){
+
+        if(state.designs.includes('chrome'))
+            return .15;
+
+        if(state.designs.includes('glitter'))
+            return .3;
+
+        if(state.designs.includes('cat-eye'))
+            return .25;
+
+        return .5;
+
+    }
+
+
+    function getNailMetalness(){
+
+        if(state.designs.includes('chrome'))
+            return 1;
+
+        if(state.designs.includes('glitter'))
+            return .4;
+
+        if(state.designs.includes('cat-eye'))
+            return .6;
+
+        return .05;
+
+    }
+
+
+    function getNailEnvMap(){
+
+        if(state.designs.includes('chrome'))
+            return 1.5;
+
+        if(state.designs.includes('glitter'))
+            return .8;
+
+        if(state.designs.includes('cat-eye'))
+            return 1;
+
+        return .3;
+
+    }
+
+
+    function updateNails(){
+
+        buildHand();
+
+        updateSummary();
+
+        updateReview();
+
+    }
+
+
+    function animate(){
+
+        animFrame =
+            requestAnimationFrame(
+                animate
+            );
+
+        if(controls)
+            controls.update();
+
+        if(renderer)
+            renderer.render(
+                scene,
+                camera
+            );
+
+    }
+
+
+    /* ============================================================
+       SUMMARY
+    ============================================================ */
+
+    function updateSummary(){
+
+        const len =
+            lengthLabels[state.length];
+
+        const shape =
+            shapeLabels[state.shape];
+
+        const type =
+            typeLabels[state.type];
+
+
+        const design =
+            state.designs.length
+                ? state.designs
+                    .map(d => designLabels[d])
+                    .join(' + ')
+                : '—';
+
+
+        const dur =
+            typeDurations[state.type];
+
+
+        const price =
+            typePrices[state.type];
+
+
+        const dateStr =
+            state.date
+                ? state.date.toLocaleDateString(
+                    'en-US',
+                    {
+                        month:'short',
+                        day:'numeric',
+                        year:'numeric'
+                    }
+                )
+                : '—';
+
+
+        document.getElementById(
+            'sumLength'
+        ).textContent=len;
+
+
+        document.getElementById(
+            'sumShape'
+        ).textContent=shape;
+
+
+        document.getElementById(
+            'sumType'
+        ).textContent=type;
+
+
+        document.getElementById(
+            'sumDesign'
+        ).textContent=design;
+
+
+        document.getElementById(
+            'sumDate'
+        ).textContent=dateStr;
+
+
+        document.getElementById(
+            'sumTime'
+        ).textContent=state.time || '—';
+
+
+        document.getElementById(
+            'sumDuration'
+        ).textContent=dur;
+
+
+        document.getElementById(
+            'sumPrice'
+        ).textContent=price;
+
+
+        document.getElementById(
+            'summaryFloating'
+        ).classList.add('visible');
+
+    }
+
+
+    /* ============================================================
+       REVIEW
+    ============================================================ */
+
+    function updateReview(){
+
+        document.getElementById(
+            'revLength'
+        ).textContent=lengthLabels[state.length];
+
+
+        document.getElementById(
+            'revShape'
+        ).textContent=shapeLabels[state.shape];
+
+
+        document.getElementById(
+            'revType'
+        ).textContent=typeLabels[state.type];
+
+
+        document.getElementById(
+            'revDesign'
+        ).textContent =
+            state.designs.length
+                ? state.designs
+                    .map(d=>designLabels[d])
+                    .join(' + ')
+                : '—';
+
+
+        document.getElementById(
+            'revDate'
+        ).textContent =
+            state.date
+                ? state.date.toLocaleDateString(
+                    'en-US',
+                    {
+                        month:'short',
+                        day:'numeric',
+                        year:'numeric'
+                    }
+                )
+                : '—';
+
+
+        document.getElementById(
+            'revTime'
+        ).textContent =
+            state.time || '—';
+
+
+        document.getElementById(
+            'revDuration'
+        ).textContent =
+            typeDurations[state.type];
+
+
+        document.getElementById(
+            'revPrice'
+        ).textContent =
+            typePrices[state.type];
+
+
+        document.getElementById(
+            'revTypeShort'
+        ).textContent =
+            typeLabels[state.type];
+
+
+        document.getElementById(
+            'revShapeShort'
+        ).textContent =
+            shapeLabels[state.shape];
+
+
+        document.getElementById(
+            'estDurationDisplay'
+        ).textContent =
+            typeDurations[state.type];
+
+    }
+
+
+    /* ============================================================
+       STEPS
+    ============================================================ */
+
+    function goToStep(idx){
+
+        state.currentStep =
+            Math.max(
+                0,
+                Math.min(
+                    idx,
+                    state.totalSteps-1
+                )
+            );
+
+
+        document
+            .querySelectorAll('.step-panel')
+            .forEach((el,i)=>{
+
+                el.classList.toggle(
+                    'active',
+                    i===state.currentStep
+                );
+
+            });
+
+
+        document
+            .querySelectorAll('.progress-step')
+            .forEach((el,i)=>{
+
+                el.classList.remove(
+                    'active',
+                    'done'
+                );
+
+
+                if(i===state.currentStep)
+                    el.classList.add('active');
+
+                else if(i<state.currentStep)
+                    el.classList.add('done');
+
+            });
+
+
+        document
+            .getElementById('builder')
+            .scrollIntoView({
+                behavior:'smooth',
+                block:'start'
+            });
+
+    }
+
+
+    function selectOption(
+        container,
+        value,
+        stateKey
+    ){
+
+        container
+            .querySelectorAll('.option-card')
+            .forEach(c=>{
+
+                c.classList.toggle(
+                    'selected',
+                    c.dataset.value===value
+                );
+
+            });
+
+
+        state[stateKey]=value;
+
+        updateNails();
+
+    }
+
+
+    /* ============================================================
+       CALENDAR
+    ============================================================ */
+
+    let calDate=new Date();
+
+    let selectedDate=null;
+
+
+    function renderCalendar(){
+
+        const grid =
+            document.getElementById(
+                'calendarGrid'
+            );
+
+
+        const monthLabel =
+            document.getElementById(
+                'calMonthLabel'
+            );
+
+
+        const year =
+            calDate.getFullYear();
+
+
+        const month =
+            calDate.getMonth();
+
+
+        monthLabel.textContent =
+            calDate.toLocaleDateString(
+                'en-US',
+                {
+                    month:'long',
+                    year:'numeric'
+                }
+            );
+
+
+        const first =
+            new Date(
+                year,
+                month,
+                1
+            );
+
+
+        const last =
+            new Date(
+                year,
+                month+1,
+                0
+            );
+
+
+        const startDay =
+            first.getDay();
+
+
+        const daysInMonth =
+            last.getDate();
+
+
+        let html='';
+
+
+        [
+            'Su',
+            'Mo',
+            'Tu',
+            'We',
+            'Th',
+            'Fr',
+            'Sa'
+        ].forEach(d=>{
+
+            html +=
+                `<div class="header">${d}</div>`;
+
+        });
+
+
+        for(
+            let i=0;
+            i<startDay;
+            i++
+        ){
+
+            html +=
+                `<div class="day other"></div>`;
+
+        }
+
+
+        const today=new Date();
+
+
+        for(
+            let d=1;
+            d<=daysInMonth;
+            d++
+        ){
+
+            const dateObj =
+                new Date(
+                    year,
+                    month,
+                    d
+                );
+
+
+            const isToday =
+                dateObj.toDateString() ===
+                today.toDateString();
+
+
+            const isSelected =
+                selectedDate &&
+                dateObj.toDateString() ===
+                selectedDate.toDateString();
+
+
+            const isPast =
+                dateObj <
+                new Date(
+                    today.getFullYear(),
+                    today.getMonth(),
+                    today.getDate()
+                );
+
+
+            let cls='day';
+
+
+            if(isToday)
+                cls+=' today';
+
+
+            if(isSelected)
+                cls+=' selected';
+
+
+            if(isPast)
+                cls+=' other';
+
+
+            html += `
+                <button
+                    class="${cls}"
+                    data-date="${dateObj.toISOString()}"
+                    ${isPast?'disabled':''}>
+                    ${d}
+                </button>
+            `;
+
+        }
+
+
+        grid.innerHTML=html;
+
+
+        grid
+            .querySelectorAll('.day:not(.other)')
+            .forEach(el=>{
+
+                el.addEventListener(
+                    'click',
+                    ()=>{
+
+                        selectedDate =
+                            new Date(
+                                el.dataset.date
+                            );
+
+
+                        state.date =
+                            selectedDate;
+
+
+                        renderCalendar();
+
+                        updateSummary();
+
+                        updateReview();
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    /* ============================================================
+       INIT
+    ============================================================ */
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        ()=>{
+
+
+            /* Navigation */
+
+            document
+                .querySelectorAll('.next-step')
+                .forEach(btn=>{
+
+                    btn.addEventListener(
+                        'click',
+                        ()=>{
+
+                            if(
+                                state.currentStep <
+                                state.totalSteps-1
+                            ){
+
+                                goToStep(
+                                    state.currentStep+1
+                                );
+
+                            }
+
+                        }
+                    );
+
+                });
+
+
+            document
+                .querySelectorAll('.prev-step')
+                .forEach(btn=>{
+
+                    btn.addEventListener(
+                        'click',
+                        ()=>{
+
+                            if(
+                                state.currentStep>0
+                            ){
+
+                                goToStep(
+                                    state.currentStep-1
+                                );
+
+                            }
+
+                        }
+                    );
+
+                });
+
+
+            /* Length */
+
+            document
+                .querySelectorAll(
+                    '#lengthOptions .option-card'
+                )
+                .forEach(el=>{
+
+                    el.addEventListener(
+                        'click',
+                        ()=>{
+
+                            selectOption(
+                                document.getElementById(
+                                    'lengthOptions'
+                                ),
+                                el.dataset.value,
+                                'length'
+                            );
+
+                        }
+                    );
+
+                });
+
+
+            /* Shape */
+
+            document
+                .querySelectorAll(
+                    '#shapeOptions .option-card'
+                )
+                .forEach(el=>{
+
+                    el.addEventListener(
+                        'click',
+                        ()=>{
+
+                            selectOption(
+                                document.getElementById(
+                                    'shapeOptions'
+                                ),
+                                el.dataset.value,
+                                'shape'
+                            );
+
+                        }
+                    );
+
+                });
+
+
+            /* Type */
+
+            document
+                .querySelectorAll(
+                    '#typeOptions .option-card'
+                )
+                .forEach(el=>{
+
+                    el.addEventListener(
+                        'click',
+                        ()=>{
+
+                            selectOption(
+                                document.getElementById(
+                                    'typeOptions'
+                                ),
+                                el.dataset.value,
+                                'type'
+                            );
+
+                        }
+                    );
+
+                });
+
+
+            /* Design */
+
+            document
+                .querySelectorAll(
+                    '#designOptions .option-card'
+                )
+                .forEach(el=>{
+
+                    el.addEventListener(
+                        'click',
+                        ()=>{
+
+                            const val =
+                                el.dataset.value;
+
+
+                            const index =
+                                state.designs.indexOf(
+                                    val
+                                );
+
+
+                            if(index>-1){
+
+                                state.designs.splice(
+                                    index,
+                                    1
+                                );
+
+                                el.classList.remove(
+                                    'selected'
+                                );
+
+                            }
+
+                            else{
+
+                                state.designs.push(
+                                    val
+                                );
+
+                                el.classList.add(
+                                    'selected'
+                                );
+
+                            }
+
+
+                            updateNails();
+
+                        }
+                    );
+
+                });
+
+
+            /* Calendar */
+
+            document
+                .getElementById('calPrev')
+                .addEventListener(
+                    'click',
+                    ()=>{
+
+                        calDate.setMonth(
+                            calDate.getMonth()-1
+                        );
+
+                        renderCalendar();
+
+                    }
+                );
+
+
+            document
+                .getElementById('calNext')
+                .addEventListener(
+                    'click',
+                    ()=>{
+
+                        calDate.setMonth(
+                            calDate.getMonth()+1
+                        );
+
+                        renderCalendar();
+
+                    }
+                );
+
+
+            /* Time */
+
+            document
+                .querySelectorAll('.time-slot')
+                .forEach(el=>{
+
+                    el.addEventListener(
+                        'click',
+                        ()=>{
+
+                            if(
+                                el.classList.contains(
+                                    'unavailable'
+                                )
+                            )
+                                return;
+
+
+                            document
+                                .querySelectorAll(
+                                    '.time-slot'
+                                )
+                                .forEach(t=>
+                                    t.classList.remove(
+                                        'selected'
+                                    )
+                                );
+
+
+                            el.classList.add(
+                                'selected'
+                            );
+
+
+                            state.time =
+                                el.dataset.time;
+
+
+                            updateSummary();
+
+                            updateReview();
+
+                        }
+                    );
+
+                });
+
+
+            /* Confirm */
+
+            document
+                .getElementById(
+                    'confirmBookBtn'
+                )
+                .addEventListener(
+                    'click',
+                    ()=>{
+
+
+                        if(
+                            !state.date ||
+                            !state.time
+                        ){
+
+                            alert(
+                                'Please select a date and time first.'
+                            );
+
+                            goToStep(4);
+
+                            return;
+
+                        }
+
+
+                        document.getElementById(
+                            'confDate'
+                        ).textContent =
+                            state.date.toLocaleDateString(
+                                'en-US',
+                                {
+                                    month:'long',
+                                    day:'numeric',
+                                    year:'numeric'
+                                }
+                            );
+
+
+                        document.getElementById(
+                            'confTime'
+                        ).textContent =
+                            state.time;
+
+
+                        document.getElementById(
+                            'confType'
+                        ).textContent =
+                            typeLabels[state.type];
+
+
+                        document.getElementById(
+                            'confLength'
+                        ).textContent =
+                            lengthLabels[state.length];
+
+
+                        document.getElementById(
+                            'confShape'
+                        ).textContent =
+                            shapeLabels[state.shape];
+
+
+                        document.getElementById(
+                            'confDesign'
+                        ).textContent =
+                            state.designs.length
+                                ? state.designs
+                                    .map(d=>designLabels[d])
+                                    .join(' + ')
+                                : '—';
+
+
+                        document.getElementById(
+                            'confDuration'
+                        ).textContent =
+                            typeDurations[state.type];
+
+
+                        document.getElementById(
+                            'confPrice'
+                        ).textContent =
+                            typePrices[state.type];
+
+
+                        document
+                            .getElementById(
+                                'confirmationOverlay'
+                            )
+                            .classList.add('open');
+
+
+                        document.body.style.overflow =
+                            'hidden';
+
+                    }
+                );
+
+
+            renderCalendar();
+
+            updateNails();
+
+            goToStep(0);
+
+            updateSummary();
+
+
+            setTimeout(
+                initThree,
+                200
+            );
+
+        }
+    );
+
+
+    /* ============================================================
+       CLOSE CONFIRMATION
+    ============================================================ */
+
+    function closeConfirmation(){
+
+        document
+            .getElementById(
+                'confirmationOverlay'
+            )
+            .classList.remove('open');
+
+
+        document.body.style.overflow='';
+
+    }
+
+
+    document
+        .getElementById(
+            'confirmationOverlay'
+        )
+        .addEventListener(
+            'click',
+            e=>{
+
+                if(
+                    e.target === e.currentTarget
+                ){
+
+                    closeConfirmation();
+
+                }
+
+            }
+        );
+
+
+    document.addEventListener(
+        'keydown',
+        e=>{
+
+            if(e.key==='Escape')
+                closeConfirmation();
+
+        }
+    );
+
+
+    /* ============================================================
+       WEBGL FALLBACK
+    ============================================================ */
+
+    window.addEventListener(
+        'load',
+        ()=>{
+
+            const container =
+                document.getElementById(
+                    'builder3d'
+                );
+
+
+            setTimeout(
+                ()=>{
+
+                    const canvas =
+                        container.querySelector(
+                            'canvas'
+                        );
+
+
+                    if(!canvas){
+
+                        container.classList.add(
+                            'no-webgl'
+                        );
+
+
+                        container.innerHTML = `
+
+                            <div style="
+                                padding:40px;
+                                text-align:center;
+                            ">
+
+                                <p style="
+                                    font-size:1.2rem;
+                                ">
+                                    💅 Interactive 3D Nail Preview
+                                </p>
+
+                                <p style="
+                                    color:var(--espresso-light);
+                                    margin-top:8px;
+                                ">
+                                    Enable WebGL for the full experience.
+                                </p>
+
+                            </div>
+
+                        `;
+
+                    }
+
+                },
+                3000
+            );
+
+        }
+    );
+
+
+    console.log(
+        '💅 LuxNails — Build Your Nail Set'
+    );
+
+</script>
+
+</body>
+</html>
+```
+
+This version is **one file** and includes the pictures directly inside the HTML, so you can save it as something like `index.html` and open it immediately.
